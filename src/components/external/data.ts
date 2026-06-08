@@ -3,7 +3,7 @@ import { BatteryCharging, Factory, Leaf, Recycle, Route, ShieldCheck, Sparkles, 
 export const images = {
   hero: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85",
   heroCard: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=85",
-  projectOne: "https://images.unsplash.com/photo-1591193686104-fddba4bb6c3f?auto=format&fit=crop&w=900&q=85",
+  projectOne: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=900&q=85",
   projectTwo: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=900&q=85",
   projectThree: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=900&q=85",
   teamOne: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85",
