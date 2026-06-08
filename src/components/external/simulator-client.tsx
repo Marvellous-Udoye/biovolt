@@ -64,12 +64,13 @@ function Bar({ label, value, total }: { label: string; value: number; total: num
 export function SimulatorClient() {
   const [input, setInput] = useState<SimulationInput>({
     feedstockId: "food",
-    organicKg: 100,
-    plasticKg: 20,
-    recyclableKg: 10,
-    residualKg: 5,
+    organicKg: 0,
+    plasticKg: 0,
+    recyclableKg: 0,
+    residualKg: 0,
     location: "Lagos",
   });
+  const [hasCalculated, setHasCalculated] = useState(false);
 
   const result = useMemo(() => calculateSimulation(input), [input]);
   const householdIcons = Math.max(1, Math.min(12, Math.round(result.householdsPoweredDays)));
@@ -79,6 +80,14 @@ export function SimulatorClient() {
     { id: "recyclable", value: input.recyclableKg },
     { id: "residual", value: input.residualKg },
   ] as const;
+
+  const handleCalculate = (e: React.FormEvent) => {
+    e.preventDefault();
+    setHasCalculated(true);
+    setTimeout(() => {
+      document.getElementById("results-section")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
 
   return (
     <div className="px-4 pt-3">
@@ -101,19 +110,20 @@ export function SimulatorClient() {
       </section>
 
       <section className="mx-auto grid max-w-6xl gap-6 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr]">
-        <form className="reveal-up rounded-2xl bg-[#c9ddc8] p-6">
+        <form onSubmit={handleCalculate} className="reveal-up rounded-2xl bg-[#c9ddc8] p-6 h-fit">
           <SectionLabel>Input waste</SectionLabel>
           <div className="mt-8 grid gap-5">
             <label className="grid gap-2 text-xs font-medium text-[#334031]">
               Organic feedstock
               <Select
                 value={input.feedstockId}
-                onValueChange={(value) =>
+                onValueChange={(value) => {
                   setInput((current) => ({
                     ...current,
                     feedstockId: value as FeedstockId,
-                  }))
-                }
+                  }));
+                  setHasCalculated(false);
+                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Choose organic feedstock" />
@@ -131,9 +141,10 @@ export function SimulatorClient() {
               Location context
               <Select
                 value={input.location}
-                onValueChange={(value) =>
-                  setInput((current) => ({ ...current, location: value }))
-                }
+                onValueChange={(value) => {
+                  setInput((current) => ({ ...current, location: value }));
+                  setHasCalculated(false);
+                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Choose location" />
@@ -159,28 +170,47 @@ export function SimulatorClient() {
                   className={numberField}
                   min={0}
                   type="number"
-                  value={input[key as keyof SimulationInput] as number}
-                  onChange={(event) => setInput((current) => ({ ...current, [key]: toNumber(event.target.value) }))}
+                  value={input[key as keyof SimulationInput] || ""}
+                  onChange={(event) => {
+                    setInput((current) => ({ ...current, [key]: toNumber(event.target.value) }));
+                    setHasCalculated(false);
+                  }}
                 />
               </label>
             ))}
           </div>
-          <p className="mt-6 text-[11px] leading-5 text-[#596556]">
+          <button 
+            type="submit"
+            className="mt-6 w-full h-12 rounded-xl bg-[#0c4d0e] hover:bg-[#08350a] text-white text-sm font-semibold transition"
+          >
+            Calculate Power
+          </button>
+          <p className="mt-4 text-[11px] leading-5 text-[#596556]">
             Plastic and other recyclables are routed to recovery partners. They do not generate biogas electricity in this model.
           </p>
         </form>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <MetricCard icon={Factory} label="Methane" value={`${formatNumber(result.methaneM3)} m3`} helper={`${formatNumber(result.methaneLowM3)}-${formatNumber(result.methaneHighM3)} m3 estimate range`} />
-          <MetricCard icon={Leaf} label="Raw biogas" value={`${formatNumber(result.biogasM3)} m3`} helper={`Assumes ${SIMULATION_ASSUMPTIONS.methaneFraction * 100}% methane fraction`} />
-          <MetricCard icon={Zap} label="Electricity" value={`${formatNumber(result.electricityKwh)} kWh`} helper="Methane converted through CHP-style generation" />
-          <MetricCard icon={Sprout} label="Digestate" value={`${formatNumber(result.digestateKg)} kg`} helper="Fertilizer-like residue after anaerobic digestion" />
-          <MetricCard icon={BatteryCharging} label="CO2e avoided" value={`${formatNumber(result.co2eAvoidedKg)} kg`} helper="Diesel-generator displacement estimate" />
-          <MetricCard icon={Home} label="Household days" value={`${formatNumber(result.householdsPoweredDays)}x`} helper="Based on 4 kWh per Nigerian household per day" />
+          {hasCalculated ? (
+            <>
+              <MetricCard icon={Factory} label="Methane" value={`${formatNumber(result.methaneM3)} m3`} helper={`${formatNumber(result.methaneLowM3)}-${formatNumber(result.methaneHighM3)} m3 estimate range`} />
+              <MetricCard icon={Leaf} label="Raw biogas" value={`${formatNumber(result.biogasM3)} m3`} helper={`Assumes ${SIMULATION_ASSUMPTIONS.methaneFraction * 100}% methane fraction`} />
+              <MetricCard icon={Zap} label="Electricity" value={`${formatNumber(result.electricityKwh)} kWh`} helper="Methane converted through CHP-style generation" />
+              <MetricCard icon={Sprout} label="Digestate" value={`${formatNumber(result.digestateKg)} kg`} helper="Fertilizer-like residue after anaerobic digestion" />
+              <MetricCard icon={BatteryCharging} label="CO2e avoided" value={`${formatNumber(result.co2eAvoidedKg)} kg`} helper="Diesel-generator displacement estimate" />
+              <MetricCard icon={Home} label="Household days" value={`${formatNumber(result.householdsPoweredDays)}x`} helper="Based on 4 kWh per Nigerian household per day" />
+            </>
+          ) : (
+            <div className="col-span-2 flex flex-col items-center justify-center p-12 text-center rounded-xl bg-white border border-[#dfe5d9] min-h-[400px]">
+              <Zap className="size-10 text-[#85a981] animate-pulse" />
+              <p className="mt-4 text-sm font-medium text-[#6c7369]">Enter waste quantities and click Calculate to view projections.</p>
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-4 pb-16 lg:grid-cols-[1.1fr_0.9fr]">
+      {hasCalculated && (
+        <section id="results-section" className="mx-auto grid max-w-6xl gap-6 px-4 pb-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-[#edf0e9]">
           <SectionLabel>Waste routing</SectionLabel>
           <div className="mt-8 grid gap-5">
@@ -225,6 +255,7 @@ export function SimulatorClient() {
           </div>
         </div>
       </section>
+      )}
     </div>
   );
 }
