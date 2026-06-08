@@ -41,7 +41,11 @@ export default function HowItWorksPage() {
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
           {flow.map((step, index) => (
-            <article key={step.title} className="reveal-up relative rounded-lg bg-white p-5 shadow-sm ring-1 ring-[#edf0e9]">
+            <article 
+              key={step.title} 
+              className="reveal-up relative rounded-lg bg-white p-5 shadow-sm ring-1 ring-[#edf0e9]"
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
               <span className="grid size-9 place-items-center rounded-lg bg-[#d7fa78] text-[#185315]">
                 <step.icon className="size-4" />
               </span>
