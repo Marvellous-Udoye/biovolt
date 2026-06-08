@@ -161,14 +161,16 @@ export function HomePage() {
           <h2 className="mt-7 max-w-xs text-4xl leading-[1.05] font-medium">Frequently Asked Questions?</h2>
           <ImageBlock src={images.faq} alt="Renewable energy system" className="mt-8 h-48 w-full rounded-lg object-cover md:max-w-md" />
         </div>
-        <div className="space-y-3">
+        <div className="w-full space-y-3">
           {[
             ["Can all waste become biogas?", "No. Organic waste can become biogas, while plastics and other recyclables need separate recovery routes."],
             ["Does BioVolt generate electricity directly?", "The prototype estimates the output. In real deployment, partner biodigesters and CHP engines would generate power."],
             ["Why include plastic waste?", "Plastic does not create biogas, but sorting it prevents contamination and improves recycling value."],
             ["How accurate are the numbers?", "They are transparent estimates using documented midpoint assumptions suitable for a prototype."],
+            ["What is digestate and can it be used?", "Yes, it is a nutrient-rich byproduct from anaerobic digestion that can be used as organic fertilizer."],
+            ["Is BioVolt suitable for rural communities?", "Yes, the platform models work for any community that generates organic waste, including rural agricultural settings."],
           ].map(([question, answer], index) => (
-            <details key={question} className="rounded-xl border border-[#e9ece4] bg-white px-5 py-4 shadow-sm" open={index === 1}>
+            <details key={question} className="w-full rounded-xl border border-[#e9ece4] bg-white px-5 py-4 shadow-sm" open={index === 1}>
               <summary className="cursor-pointer list-none text-sm font-medium">{question}<span className="float-right">+</span></summary>
               <p className="mt-4 text-xs leading-5 text-[#6a7068]">{answer}</p>
             </details>
