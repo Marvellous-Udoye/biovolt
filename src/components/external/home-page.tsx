@@ -46,7 +46,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-[0.6fr_1.4fr] md:py-16">
+      <section id="about" className="reveal-up mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-[0.6fr_1.4fr] md:py-16">
         <SectionLabel>Who we are</SectionLabel>
         <div>
           <p className="max-w-3xl text-xl leading-[1.25] text-[#656765] md:text-3xl md:leading-[1.15]">
@@ -67,7 +67,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="services" className="px-4">
+      <section id="services" className="reveal-up px-4">
         <div className="mx-auto max-w-6xl rounded-2xl bg-[#c9ddc8] px-5 py-10 md:px-7 md:py-12 text-center">
           <SectionLabel>What we do</SectionLabel>
           <h2 className="mt-5 text-2xl md:text-3xl font-medium">Our Services</h2>
@@ -92,7 +92,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="projects" className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+      <section id="projects" className="reveal-up mx-auto max-w-6xl px-6 py-12 md:py-16">
         <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
           <div>
             <SectionLabel>Our projects</SectionLabel>
@@ -133,7 +133,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="px-4">
+      <section className="reveal-up px-4">
         <div className="mx-auto max-w-6xl rounded-2xl bg-[#074c08] px-5 py-10 md:px-7 md:py-14 text-center text-white">
           <SectionLabel>Why BioVolt</SectionLabel>
           <h2 className="mt-5 text-3xl md:text-4xl font-medium">Why Choose Us?</h2>
@@ -158,7 +158,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:py-16 md:grid-cols-[1.1fr_0.9fr]">
+      <section className="reveal-up mx-auto grid max-w-6xl gap-8 px-6 py-12 md:py-16 md:grid-cols-[1.1fr_0.9fr]">
         <p className="max-w-xl text-xs leading-5 text-[#60665f]">
           BioVolt brings waste collectors, researchers, sustainability teams, and processing partners into one visible workflow so every kilogram can be sorted, tracked, and converted into the right value stream.
         </p>
