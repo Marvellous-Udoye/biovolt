@@ -1,0 +1,230 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { BatteryCharging, Factory, Home, Leaf, Recycle, Route, Sprout, Zap, type LucideIcon } from "lucide-react";
+import { FEEDSTOCKS, SIMULATION_ASSUMPTIONS, WASTE_STREAMS } from "@/constants/simulation";
+import { calculateSimulation, formatNumber } from "@/lib/simulation";
+import type { FeedstockId, SimulationInput } from "@/types/simulation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SectionLabel } from "./section-label";
+
+const numberField =
+  "h-12 w-full rounded-xl border border-[#dfe5d9] bg-white px-4 text-sm outline-none transition focus:border-[#85a981] focus:ring-4 focus:ring-[#d7fa78]/30";
+
+function toNumber(value: string) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+}
+
+function MetricCard({
+  icon: Icon,
+  label,
+  value,
+  helper,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  helper: string;
+}) {
+  return (
+    <article className="reveal-up rounded-lg bg-white p-5 shadow-sm ring-1 ring-[#edf0e9]">
+      <span className="grid size-9 place-items-center rounded-lg bg-[#d7fa78] text-[#185315]">
+        <Icon className="size-4" />
+      </span>
+      <p className="mt-8 text-[11px] uppercase text-[#7b8278]">{label}</p>
+      <p className="mt-2 text-3xl font-medium text-[#252b24]">{value}</p>
+      <p className="mt-2 text-[11px] leading-4 text-[#70756d]">{helper}</p>
+    </article>
+  );
+}
+
+function Bar({ label, value, total }: { label: string; value: number; total: number }) {
+  const width = total ? Math.max(4, Math.min(100, (value / total) * 100)) : 0;
+
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between text-xs">
+        <span>{label}</span>
+        <span className="text-[#6c7369]">{formatNumber(value)} kg</span>
+      </div>
+      <div className="h-3 overflow-hidden rounded-full bg-[#e8eee4]">
+        <div className="bar-grow h-full rounded-full bg-[#0c4d0e]" style={{ width: `${width}%` }} />
+      </div>
+    </div>
+  );
+}
+
+export function SimulatorClient() {
+  const [input, setInput] = useState<SimulationInput>({
+    feedstockId: "food",
+    organicKg: 100,
+    plasticKg: 20,
+    recyclableKg: 10,
+    residualKg: 5,
+    location: "Lagos",
+  });
+
+  const result = useMemo(() => calculateSimulation(input), [input]);
+  const householdIcons = Math.max(1, Math.min(12, Math.round(result.householdsPoweredDays)));
+  const streams = [
+    { id: "organic", value: input.organicKg },
+    { id: "plastic", value: input.plasticKg },
+    { id: "recyclable", value: input.recyclableKg },
+    { id: "residual", value: input.residualKg },
+  ] as const;
+
+  return (
+    <div className="px-4 pt-3">
+      <section className="reveal-up relative mx-auto min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
+        <img
+          src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1800&q=85"
+          alt="Sorted waste ready for recovery"
+          className="absolute inset-0 size-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/20 to-[#063d08]/85" />
+        <div className="relative flex min-h-[540px] flex-col justify-end p-8 text-white md:p-12">
+          <SectionLabel>Simulator</SectionLabel>
+          <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.02]">
+            Calculate the electricity hidden in organic waste.
+          </h1>
+          <p className="mt-5 max-w-xl text-sm leading-6 text-white/80">
+            Enter waste quantities and BioVolt estimates methane, biogas, electricity, homes powered, digestate, avoided emissions, and routing outcomes.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-6 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr]">
+        <form className="reveal-up rounded-2xl bg-[#c9ddc8] p-6">
+          <SectionLabel>Input waste</SectionLabel>
+          <div className="mt-8 grid gap-5">
+            <label className="grid gap-2 text-xs font-medium text-[#334031]">
+              Organic feedstock
+              <Select
+                value={input.feedstockId}
+                onValueChange={(value) =>
+                  setInput((current) => ({
+                    ...current,
+                    feedstockId: value as FeedstockId,
+                  }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose organic feedstock" />
+                </SelectTrigger>
+                <SelectContent>
+                  {FEEDSTOCKS.map((feedstock) => (
+                    <SelectItem key={feedstock.id} value={feedstock.id}>
+                      {feedstock.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </label>
+            <label className="grid gap-2 text-xs font-medium text-[#334031]">
+              Location context
+              <Select
+                value={input.location}
+                onValueChange={(value) =>
+                  setInput((current) => ({ ...current, location: value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {["Lagos", "Abuja", "Port Harcourt", "Ibadan"].map((location) => (
+                    <SelectItem key={location} value={location}>
+                      {location}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </label>
+            {[
+              ["organicKg", "Organic waste for biogas (kg)"],
+              ["plasticKg", "Plastic waste for recycling (kg)"],
+              ["recyclableKg", "Paper / metal / glass (kg)"],
+              ["residualKg", "Residual waste (kg)"],
+            ].map(([key, label]) => (
+              <label key={key} className="grid gap-2 text-xs font-medium text-[#334031]">
+                {label}
+                <input
+                  className={numberField}
+                  min={0}
+                  type="number"
+                  value={input[key as keyof SimulationInput] as number}
+                  onChange={(event) => setInput((current) => ({ ...current, [key]: toNumber(event.target.value) }))}
+                />
+              </label>
+            ))}
+          </div>
+          <p className="mt-6 text-[11px] leading-5 text-[#596556]">
+            Plastic and other recyclables are routed to recovery partners. They do not generate biogas electricity in this model.
+          </p>
+        </form>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <MetricCard icon={Factory} label="Methane" value={`${formatNumber(result.methaneM3)} m3`} helper={`${formatNumber(result.methaneLowM3)}-${formatNumber(result.methaneHighM3)} m3 estimate range`} />
+          <MetricCard icon={Leaf} label="Raw biogas" value={`${formatNumber(result.biogasM3)} m3`} helper={`Assumes ${SIMULATION_ASSUMPTIONS.methaneFraction * 100}% methane fraction`} />
+          <MetricCard icon={Zap} label="Electricity" value={`${formatNumber(result.electricityKwh)} kWh`} helper="Methane converted through CHP-style generation" />
+          <MetricCard icon={Sprout} label="Digestate" value={`${formatNumber(result.digestateKg)} kg`} helper="Fertilizer-like residue after anaerobic digestion" />
+          <MetricCard icon={BatteryCharging} label="CO2e avoided" value={`${formatNumber(result.co2eAvoidedKg)} kg`} helper="Diesel-generator displacement estimate" />
+          <MetricCard icon={Home} label="Household days" value={`${formatNumber(result.householdsPoweredDays)}x`} helper="Based on 4 kWh per Nigerian household per day" />
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-6 px-4 pb-16 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-[#edf0e9]">
+          <SectionLabel>Waste routing</SectionLabel>
+          <div className="mt-8 grid gap-5">
+            <Bar label="Organic to biodigester" value={input.organicKg} total={result.totalWasteKg} />
+            <Bar label="Plastic to recycling" value={input.plasticKg} total={result.totalWasteKg} />
+            <Bar label="Other recyclables" value={input.recyclableKg} total={result.totalWasteKg} />
+            <Bar label="Residual handling" value={input.residualKg} total={result.totalWasteKg} />
+          </div>
+          <div className="mt-8 grid gap-3 md:grid-cols-2">
+            {streams.map((stream) => {
+              const meta = WASTE_STREAMS.find((item) => item.id === stream.id)!;
+              return (
+                <article key={stream.id} className="rounded-xl bg-[#f6f8f2] p-4">
+                  <p className="text-sm font-semibold">{meta.label}</p>
+                  <p className="mt-1 text-[11px] text-[#697267]">{meta.route}</p>
+                  <p className="mt-4 text-2xl font-medium">{formatNumber(stream.value)} kg</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+        <div className="reveal-up rounded-2xl bg-[#074c08] p-7 text-white">
+          <SectionLabel>Visual output</SectionLabel>
+          <h2 className="mt-6 text-3xl font-medium leading-tight">This batch can power about {formatNumber(result.householdsPoweredDays)} household days.</h2>
+          <div className="mt-8 grid grid-cols-4 gap-3">
+            {Array.from({ length: householdIcons }).map((_, index) => (
+              <span key={index} className="float-soft grid aspect-square place-items-center rounded-xl bg-white/10">
+                <Home className="size-5 text-[#d7fa78]" />
+              </span>
+            ))}
+          </div>
+          <p className="mt-8 text-xs leading-5 text-white/70">
+            Total waste entered: {formatNumber(result.totalWasteKg)} kg. Diverted into useful streams: {formatNumber(result.divertedKg)} kg. Residual share: {formatNumber(result.residualShare * 100)}%.
+          </p>
+          <div className="mt-8 flex items-center gap-3 rounded-xl bg-white/10 p-4 text-xs">
+            <Route className="size-5 text-[#d7fa78]" />
+            <span>{input.location} routing context selected.</span>
+          </div>
+          <div className="mt-3 flex items-center gap-3 rounded-xl bg-white/10 p-4 text-xs">
+            <Recycle className="size-5 text-[#d7fa78]" />
+            <span>Recycling streams are separated from the biogas calculation.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
