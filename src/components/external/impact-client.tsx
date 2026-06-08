@@ -65,26 +65,26 @@ export function ImpactClient() {
 
   return (
     <div className="px-4 pt-3">
-      <section className="reveal-up relative mx-auto min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
+      <section className="reveal-up relative mx-auto min-h-[460px] md:min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
         <img
           src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=1800&q=85"
           alt="Renewable energy landscape"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/20 to-[#063d08]/85" />
-        <div className="relative flex min-h-[540px] flex-col justify-end p-8 text-white md:p-12">
+        <div className="relative flex min-h-[460px] md:min-h-[540px] flex-col justify-end p-6 md:p-12 text-white">
           <SectionLabel>Impact</SectionLabel>
-          <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.02]">
+          <h1 className="mt-6 max-w-2xl text-3xl md:text-5xl font-semibold leading-[1.05]">
             Lagos waste can become measurable local power.
           </h1>
-          <p className="mt-5 max-w-xl text-sm leading-6 text-white/80">
+          <p className="mt-5 max-w-xl text-xs md:text-sm leading-6 text-white/80">
             Adjust the capture rate to estimate what happens if BioVolt helps route a share of Lagos daily waste into useful streams.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-4 py-16 lg:grid-cols-[0.85fr_1.15fr]">
-        <div className="reveal-up rounded-2xl bg-[#c9ddc8] p-7">
+      <section className="mx-auto grid max-w-6xl gap-6 px-0 py-12 md:py-16 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="reveal-up rounded-2xl bg-[#c9ddc8] p-5 md:p-7">
           <SectionLabel>Lagos model</SectionLabel>
           <h2 className="mt-6 text-3xl font-medium leading-tight">
             What if BioVolt captured {captureRate}% of daily waste?
@@ -122,10 +122,10 @@ export function ImpactClient() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-4 pb-16 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="reveal-up rounded-2xl bg-[#074c08] p-7 text-white">
+      <section className="mx-auto grid max-w-6xl gap-6 px-0 pb-16 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="reveal-up rounded-2xl bg-[#074c08] p-5 md:p-7 text-white">
           <SectionLabel>Power gap</SectionLabel>
-          <h2 className="mt-6 text-3xl font-medium leading-tight">
+          <h2 className="mt-6 text-2xl md:text-3xl font-medium leading-tight">
             BioVolt is not replacing the grid. It shows a local support layer.
           </h2>
           <p className="mt-5 text-xs leading-5 text-white/70">
@@ -137,8 +137,8 @@ export function ImpactClient() {
               ["Generator comparison", "Outputs can be compared against diesel kWh and emissions"],
               ["Circular benefit", "Waste removal, power estimate, and fertilizer residue in one loop"],
             ].map(([label, text]) => (
-              <div key={label} className="flex items-center gap-3 rounded-xl bg-white/10 p-4 text-xs">
-                <PlugZap className="size-5 text-[#d7fa78]" />
+              <div key={label} className="flex items-start gap-3 rounded-xl bg-white/10 p-4 text-xs">
+                <PlugZap className="size-5 text-[#d7fa78] shrink-0 mt-0.5" />
                 <span><strong>{label}:</strong> {text}</span>
               </div>
             ))}

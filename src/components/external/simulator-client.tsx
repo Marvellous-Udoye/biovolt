@@ -91,25 +91,25 @@ export function SimulatorClient() {
 
   return (
     <div className="px-4 pt-3">
-      <section className="reveal-up relative mx-auto min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
+      <section className="reveal-up relative mx-auto min-h-[460px] md:min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
         <img
           src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1800&q=85"
           alt="Sorted waste ready for recovery"
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/20 to-[#063d08]/85" />
-        <div className="relative flex min-h-[540px] flex-col justify-end p-8 text-white md:p-12">
+        <div className="relative flex min-h-[460px] md:min-h-[540px] flex-col justify-end p-6 md:p-12 text-white">
           <SectionLabel>Simulator</SectionLabel>
-          <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.02]">
+          <h1 className="mt-6 max-w-2xl text-3xl md:text-5xl font-semibold leading-[1.05]">
             Calculate the electricity hidden in organic waste.
           </h1>
-          <p className="mt-5 max-w-xl text-sm leading-6 text-white/80">
+          <p className="mt-5 max-w-xl text-xs md:text-sm leading-6 text-white/80">
             Enter waste quantities and BioVolt estimates methane, biogas, electricity, homes powered, digestate, avoided emissions, and routing outcomes.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr]">
+      <section className="mx-auto grid max-w-6xl gap-6 px-0 py-12 md:py-16 lg:grid-cols-[0.82fr_1.18fr]">
         <form onSubmit={handleCalculate} className="reveal-up rounded-2xl bg-[#c9ddc8] p-6 h-fit">
           <SectionLabel>Input waste</SectionLabel>
           <div className="mt-8 grid gap-5">
@@ -210,8 +210,8 @@ export function SimulatorClient() {
       </section>
 
       {hasCalculated && (
-        <section id="results-section" className="mx-auto grid max-w-6xl gap-6 px-4 pb-16 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-[#edf0e9]">
+        <section id="results-section" className="mx-auto grid max-w-6xl gap-6 px-0 pb-16 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-2xl bg-white p-5 md:p-7 shadow-sm ring-1 ring-[#edf0e9]">
           <SectionLabel>Waste routing</SectionLabel>
           <div className="mt-8 grid gap-5">
             <Bar label="Organic to biodigester" value={input.organicKg} total={result.totalWasteKg} />
@@ -219,7 +219,7 @@ export function SimulatorClient() {
             <Bar label="Other recyclables" value={input.recyclableKg} total={result.totalWasteKg} />
             <Bar label="Residual handling" value={input.residualKg} total={result.totalWasteKg} />
           </div>
-          <div className="mt-8 grid gap-3 md:grid-cols-2">
+          <div className="mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2">
             {streams.map((stream) => {
               const meta = WASTE_STREAMS.find((item) => item.id === stream.id)!;
               return (
@@ -232,9 +232,9 @@ export function SimulatorClient() {
             })}
           </div>
         </div>
-        <div className="reveal-up rounded-2xl bg-[#074c08] p-7 text-white">
+        <div className="reveal-up rounded-2xl bg-[#074c08] p-5 md:p-7 text-white">
           <SectionLabel>Visual output</SectionLabel>
-          <h2 className="mt-6 text-3xl font-medium leading-tight">This batch can power about {formatNumber(result.householdsPoweredDays)} household days.</h2>
+          <h2 className="mt-6 text-2xl md:text-3xl font-medium leading-tight">This batch can power about {formatNumber(result.householdsPoweredDays)} household days.</h2>
           <div className="mt-8 grid grid-cols-4 gap-3">
             {Array.from({ length: householdIcons }).map((_, index) => (
               <span key={index} className="float-soft grid aspect-square place-items-center rounded-xl bg-white/10">

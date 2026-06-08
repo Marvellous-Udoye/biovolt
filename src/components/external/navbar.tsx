@@ -11,7 +11,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-5 z-50 px-4">
+    <header className="pointer-events-none fixed inset-x-0 top-5 z-50 px-8 lg:px-4">
       <nav className="pointer-events-auto mx-auto flex h-12 max-w-5xl items-center justify-between rounded-full bg-white/95 px-3 shadow-sm ring-1 ring-black/5 backdrop-blur transition-all">
         <Link href="/" aria-label="BioVolt home">
           <Logo />

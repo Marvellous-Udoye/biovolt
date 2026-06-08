@@ -19,7 +19,7 @@ export function SimulationScreenshot({ title, subtitle, type }: SimulationScreen
           <Play className="size-4 text-[#0c4d0e]" />
         </div>
       </div>
-      <div className="grid min-h-72 gap-4 p-4 md:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid min-h-72 gap-4 p-4 grid-cols-1 md:grid-cols-[1.2fr_0.8fr]">
         {type === "map" ? <MapPanel /> : <ChartPanel />}
         <div className="space-y-3">
           {[
