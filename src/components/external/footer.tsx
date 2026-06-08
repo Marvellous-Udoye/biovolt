@@ -13,32 +13,49 @@ export function Footer() {
               Start seeing energy and recovery value from organic waste today. Contact us for a live consultation.
             </p>
           </div>
-          <div className="grid gap-4 text-xs md:grid-cols-2 md:gap-10">
-            <div className="flex flex-wrap gap-4">
-              {NAV_LINKS.map((link) => (
-                <Link key={link.label} href={link.href} className="text-white/80 hover:text-white">
+          <div className="grid grid-cols-2 gap-8 text-xs md:grid-cols-3 md:gap-12">
+            <div className="flex flex-col gap-2">
+              <span className="font-semibold text-white/50 uppercase tracking-wider text-[10px]">Navigation</span>
+              {NAV_LINKS.slice(0, 4).map((link) => (
+                <Link key={link.label} href={link.href} className="text-white/80 hover:text-white transition-colors">
                   {link.label}
                 </Link>
               ))}
             </div>
-            <div className="space-y-2 text-white/75">
+            <div className="flex flex-col gap-2">
+              <span className="font-semibold text-white/50 uppercase tracking-wider text-[10px]">Platform</span>
+              {NAV_LINKS.slice(4).map((link) => (
+                <Link key={link.label} href={link.href} className="text-white/80 hover:text-white transition-colors">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2 col-span-2 md:col-span-1 text-white/75">
+              <span className="font-semibold text-white/50 uppercase tracking-wider text-[10px]">Contact</span>
               <p>42 Marina District, Lagos, Nigeria</p>
               <p>+234 800 BIOVOLT</p>
             </div>
           </div>
         </div>
-        <div className="mt-8 select-none text-center text-[18vw] font-black leading-none tracking-normal text-white/25 md:text-[10rem]">
-          BioVolt
+        <div className="mt-8 select-none text-center text-[18vw] font-black leading-none tracking-normal md:text-[10rem] relative">
+          <span 
+            className="bg-clip-text text-transparent bg-gradient-to-b from-white/20 to-white/5"
+            style={{
+              WebkitTextStroke: "1px rgba(255, 255, 255, 0.15)",
+            }}
+          >
+            BioVolt
+          </span>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-4 text-[11px] text-white/70 md:flex-row">
           <p>© 2026 BioVolt. All rights reserved.</p>
           <div className="flex items-center gap-5">
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>
-            <Linkedin className="size-4" />
-            <Facebook className="size-4" />
-            <Instagram className="size-4" />
-            <ArrowUpRight className="size-4" />
+            <Linkedin className="size-4 cursor-pointer hover:text-white transition-colors" />
+            <Facebook className="size-4 cursor-pointer hover:text-white transition-colors" />
+            <Instagram className="size-4 cursor-pointer hover:text-white transition-colors" />
+            <ArrowUpRight className="size-4 cursor-pointer hover:text-white transition-colors" />
           </div>
         </div>
       </div>
