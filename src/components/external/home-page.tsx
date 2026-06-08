@@ -8,12 +8,14 @@ function ImageBlock({
   src,
   alt,
   className,
+  style,
 }: {
   src: string;
   alt: string;
   className?: string;
+  style?: React.CSSProperties;
 }) {
-  return <img src={src} alt={alt} className={className} />;
+  return <img src={src} alt={alt} className={className} style={style} />;
 }
 
 export function HomePage() {
