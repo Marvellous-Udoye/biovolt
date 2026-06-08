@@ -179,13 +179,13 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-[0.9fr_1.1fr]">
-        <div>
+      <section className="reveal-up mx-auto grid max-w-6xl gap-8 px-6 py-12 grid-cols-1 md:grid-cols-[380px_1fr]">
+        <div className="w-full shrink-0">
           <SectionLabel>FAQs</SectionLabel>
           <h2 className="mt-7 max-w-xs text-3xl md:text-4xl leading-[1.05] font-medium">Frequently Asked Questions?</h2>
-          <ImageBlock src={images.faq} alt="Renewable energy system" className="mt-8 h-48 w-full rounded-lg object-cover md:max-w-md" />
+          <ImageBlock src={images.faq} alt="Renewable energy system" className="mt-8 h-48 w-full rounded-lg object-cover" />
         </div>
-        <div className="w-full space-y-3">
+        <div className="w-full flex-1 space-y-3">
           {[
             ["Can all waste become biogas?", "No. Organic waste can become biogas, while plastics and other recyclables need separate recovery routes."],
             ["Does BioVolt generate electricity directly?", "The prototype estimates the output. In real deployment, partner biodigesters and CHP engines would generate power."],

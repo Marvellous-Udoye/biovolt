@@ -1,14 +1,46 @@
-import { ArrowRight, Cog, Flame, Gauge, Leaf, Recycle, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Cog,
+  Flame,
+  Gauge,
+  Leaf,
+  Recycle,
+  Zap,
+} from "lucide-react";
 import { SectionLabel } from "@/components/external/section-label";
 import { SimulationScreenshot } from "@/components/external/simulation-screenshot";
 
 const flow = [
-  { icon: Recycle, title: "Waste", text: "Households, markets, and businesses enter mixed waste quantities." },
-  { icon: Gauge, title: "Sorting", text: "Organic, plastic, recyclable, and residual streams are separated." },
-  { icon: Leaf, title: "Biodigester", text: "Organic waste enters anaerobic digestion for methane production." },
-  { icon: Cog, title: "Gas Cleaning", text: "Moisture and impurities are removed before energy conversion." },
-  { icon: Flame, title: "CHP Engine", text: "Methane is burned in a generator to produce usable electricity." },
-  { icon: Zap, title: "Electricity", text: "The platform estimates kWh, homes powered, and avoided emissions." },
+  {
+    icon: Recycle,
+    title: "Waste",
+    text: "Households, markets, and businesses enter mixed waste quantities.",
+  },
+  {
+    icon: Gauge,
+    title: "Sorting",
+    text: "Organic, plastic, recyclable, and residual streams are separated.",
+  },
+  {
+    icon: Leaf,
+    title: "Biodigester",
+    text: "Organic waste enters anaerobic digestion for methane production.",
+  },
+  {
+    icon: Cog,
+    title: "Gas Cleaning",
+    text: "Moisture and impurities are removed before energy conversion.",
+  },
+  {
+    icon: Flame,
+    title: "CHP Engine",
+    text: "Methane is burned in a generator to produce usable electricity.",
+  },
+  {
+    icon: Zap,
+    title: "Electricity",
+    text: "The platform estimates kWh, homes powered, and avoided emissions.",
+  },
 ];
 
 export default function HowItWorksPage() {
@@ -27,7 +59,8 @@ export default function HowItWorksPage() {
             Waste to sorting to biogas to electricity.
           </h1>
           <p className="mt-5 max-w-xl text-xs md:text-sm leading-6 text-white/80">
-            BioVolt turns the group’s process into a visual prototype: collect, sort, digest, clean the gas, generate power, and track outputs.
+            BioVolt turns the group’s process into a visual prototype: collect,
+            sort, digest, clean the gas, generate power, and track outputs.
           </p>
         </div>
       </section>
@@ -41,8 +74,8 @@ export default function HowItWorksPage() {
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
           {flow.map((step, index) => (
-            <article 
-              key={step.title} 
+            <article
+              key={step.title}
               className="reveal-up relative rounded-lg bg-white p-5 shadow-sm ring-1 ring-[#edf0e9]"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
@@ -50,10 +83,9 @@ export default function HowItWorksPage() {
                 <step.icon className="size-4" />
               </span>
               <h3 className="mt-8 text-sm font-semibold">{step.title}</h3>
-              <p className="mt-3 text-[11px] leading-5 text-[#70756d]">{step.text}</p>
-              {index < flow.length - 1 && (
-                <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden size-5 text-[#84ae82] xl:block" />
-              )}
+              <p className="mt-3 text-[11px] leading-5 text-[#70756d]">
+                {step.text}
+              </p>
             </article>
           ))}
         </div>
@@ -63,9 +95,13 @@ export default function HowItWorksPage() {
         <div className="mx-auto max-w-6xl rounded-2xl bg-[#c9ddc8] px-5 py-10 md:px-7 md:py-12">
           <div className="text-center">
             <SectionLabel>Simulation evidence</SectionLabel>
-            <h2 className="mt-5 text-2xl md:text-3xl font-medium">AnyLogic and OpenModelica preview panels</h2>
+            <h2 className="mt-5 text-2xl md:text-3xl font-medium">
+              AnyLogic and OpenModelica preview panels
+            </h2>
             <p className="mx-auto mt-5 max-w-3xl text-xs leading-5 text-[#667064]">
-              These are prototype screenshot-style panels matching where exported AnyLogic logistics and OpenModelica digestion screenshots should sit once your team produces the real files.
+              These are prototype screenshot-style panels matching where
+              exported AnyLogic logistics and OpenModelica digestion screenshots
+              should sit once your team produces the real files.
             </p>
           </div>
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -85,4 +121,3 @@ export default function HowItWorksPage() {
     </div>
   );
 }
-
