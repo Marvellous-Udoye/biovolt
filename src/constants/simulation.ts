@@ -59,7 +59,8 @@ export const WASTE_STREAMS: WasteStream[] = [
     id: "residual",
     label: "Residual",
     route: "Residual handling",
-    description: "Tracked separately to reduce contamination and landfill load.",
+    description:
+      "Non-recyclable and hard-to-process materials (textiles, diapers, sanitary waste, contaminated organics, construction debris, and other mixed refuse) routed for appropriate disposal or specialized processing.",
   },
 ];
 

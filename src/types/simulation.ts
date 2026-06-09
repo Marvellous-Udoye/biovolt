@@ -16,7 +16,8 @@ export interface WasteStream {
 }
 
 export interface SimulationInput {
-  feedstockId: FeedstockId;
+  // allow multiple organic feedstock types to be selected
+  feedstockIds: FeedstockId[];
   organicKg: number;
   plasticKg: number;
   recyclableKg: number;

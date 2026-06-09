@@ -3,18 +3,21 @@ import type { FeedstockId, SimulationInput, SimulationResult } from "@/types/sim
 
 const clamp = (value: number) => (Number.isFinite(value) && value > 0 ? value : 0);
 
-export function getFeedstock(feedstockId: FeedstockId) {
-  return FEEDSTOCKS.find((feedstock) => feedstock.id === feedstockId) ?? FEEDSTOCKS[0];
+export function getFeedstocks(feedstockIds: FeedstockId[]) {
+  const selected = FEEDSTOCKS.filter((f) => feedstockIds.includes(f.id));
+  return selected.length ? selected : [FEEDSTOCKS[0]];
 }
 
 export function calculateSimulation(input: SimulationInput): SimulationResult {
-  const feedstock = getFeedstock(input.feedstockId);
+  const feedstocks = getFeedstocks(input.feedstockIds ?? []);
   const organicKg = clamp(input.organicKg);
   const plasticKg = clamp(input.plasticKg);
   const recyclableKg = clamp(input.recyclableKg);
   const residualKg = clamp(input.residualKg);
   const totalWasteKg = organicKg + plasticKg + recyclableKg + residualKg;
-  const methaneM3 = organicKg * feedstock.methaneM3PerKg;
+  const avgMethanePerKg =
+    feedstocks.reduce((sum, f) => sum + f.methaneM3PerKg, 0) / feedstocks.length;
+  const methaneM3 = organicKg * avgMethanePerKg;
   const electricityKwh = methaneM3 * SIMULATION_ASSUMPTIONS.methaneToKwh;
   const divertedKg = organicKg + plasticKg + recyclableKg;
 

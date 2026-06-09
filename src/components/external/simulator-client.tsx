@@ -5,6 +5,8 @@ import { BatteryCharging, Factory, Home, Leaf, Recycle, Route, Sprout, Zap, type
 import { FEEDSTOCKS, SIMULATION_ASSUMPTIONS, WASTE_STREAMS } from "@/constants/simulation";
 import { calculateSimulation, formatNumber } from "@/lib/simulation";
 import type { FeedstockId, SimulationInput } from "@/types/simulation";
+import NIGERIAN_STATES from "@/constants/states";
+import MultiSelect from "@/components/ui/multi-select";
 import {
   Select,
   SelectContent,
@@ -63,7 +65,7 @@ function Bar({ label, value, total }: { label: string; value: number; total: num
 
 export function SimulatorClient() {
   const [input, setInput] = useState<SimulationInput>({
-    feedstockId: "food",
+    feedstockIds: ["food"],
     organicKg: 0,
     plasticKg: 0,
     recyclableKg: 0,
@@ -114,28 +116,16 @@ export function SimulatorClient() {
           <SectionLabel>Input waste</SectionLabel>
           <div className="mt-8 grid gap-5">
             <label className="grid gap-2 text-xs font-medium text-[#334031]">
-              Organic feedstock
-              <Select
-                value={input.feedstockId}
-                onValueChange={(value) => {
-                  setInput((current) => ({
-                    ...current,
-                    feedstockId: value as FeedstockId,
-                  }));
+              Organic feedstock (select one or more)
+              <MultiSelect
+                options={FEEDSTOCKS.map((f) => ({ value: f.id, label: f.label }))}
+                selected={input.feedstockIds}
+                onChange={(values) => {
+                  setInput((current) => ({ ...current, feedstockIds: values as FeedstockId[] }));
                   setHasCalculated(false);
                 }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose organic feedstock" />
-                </SelectTrigger>
-                <SelectContent>
-                  {FEEDSTOCKS.map((feedstock) => (
-                    <SelectItem key={feedstock.id} value={feedstock.id}>
-                      {feedstock.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                placeholder="Choose organic feedstock"
+              />
             </label>
             <label className="grid gap-2 text-xs font-medium text-[#334031]">
               Location context
@@ -150,7 +140,7 @@ export function SimulatorClient() {
                   <SelectValue placeholder="Choose location" />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Lagos", "Abuja", "Port Harcourt", "Ibadan"].map((location) => (
+                  {NIGERIAN_STATES.map((location) => (
                     <SelectItem key={location} value={location}>
                       {location}
                     </SelectItem>
@@ -198,7 +188,12 @@ export function SimulatorClient() {
               <MetricCard icon={Zap} label="Electricity" value={`${formatNumber(result.electricityKwh)} kWh`} helper="Methane converted through CHP-style generation" />
               <MetricCard icon={Sprout} label="Digestate" value={`${formatNumber(result.digestateKg)} kg`} helper="Fertilizer-like residue after anaerobic digestion" />
               <MetricCard icon={BatteryCharging} label="CO2e avoided" value={`${formatNumber(result.co2eAvoidedKg)} kg`} helper="Diesel-generator displacement estimate" />
-              <MetricCard icon={Home} label="Household days" value={`${formatNumber(result.householdsPoweredDays)}x`} helper="Based on 4 kWh per Nigerian household per day" />
+              <MetricCard
+                icon={Home}
+                label="Household impact"
+                value={`${formatNumber(result.householdsPoweredDays)} household-days`}
+                helper="Equivalent to powering 1 household for X days, or X households for 1 day (based on 4 kWh/day)"
+              />
             </>
           ) : (
             <div className="col-span-2 flex flex-col items-center justify-center p-12 text-center rounded-xl bg-white border border-[#dfe5d9] min-h-[400px]">
@@ -234,7 +229,16 @@ export function SimulatorClient() {
         </div>
         <div className="reveal-up rounded-2xl bg-[#074c08] p-5 md:p-7 text-white">
           <SectionLabel>Visual output</SectionLabel>
-          <h2 className="mt-6 text-2xl md:text-3xl font-medium leading-tight">This batch can power about {formatNumber(result.householdsPoweredDays)} household days.</h2>
+          <h2 className="mt-6 text-2xl md:text-3xl font-medium leading-tight">
+            {result.electricityKwh > 0 ? (
+              <>
+                This batch can power 1 household for {formatNumber(result.householdsPoweredDays)} days -
+                equivalently {formatNumber(result.householdsPoweredDays)} households for 1 day (based on {SIMULATION_ASSUMPTIONS.householdKwhPerDay} kWh/day). Total: {formatNumber(result.electricityKwh)} kWh.
+              </>
+            ) : (
+              <>This batch does not provide usable electricity with the current inputs (0 kWh).</>
+            )}
+          </h2>
           <div className="mt-8 grid grid-cols-4 gap-3">
             {Array.from({ length: householdIcons }).map((_, index) => (
               <span key={index} className="float-soft grid aspect-square place-items-center rounded-xl bg-white/10">
