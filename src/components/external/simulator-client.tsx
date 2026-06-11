@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { BatteryCharging, Factory, Home, Leaf, Recycle, Route, Sprout, Zap, type LucideIcon } from "lucide-react";
 import { FEEDSTOCKS, SIMULATION_ASSUMPTIONS, WASTE_STREAMS } from "@/constants/simulation";
@@ -75,7 +76,10 @@ export function SimulatorClient() {
   const [hasCalculated, setHasCalculated] = useState(false);
 
   const result = useMemo(() => calculateSimulation(input), [input]);
-  const householdIcons = Math.max(1, Math.min(12, Math.round(result.householdsPoweredDays)));
+  const householdIcons =
+    result.householdsPoweredDays > 0
+      ? Math.max(1, Math.min(12, Math.round(result.householdsPoweredDays)))
+      : 0;
   const streams = [
     { id: "organic", value: input.organicKg },
     { id: "plastic", value: input.plasticKg },
@@ -94,10 +98,13 @@ export function SimulatorClient() {
   return (
     <div className="px-4 pt-3">
       <section className="reveal-up relative mx-auto min-h-[460px] md:min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1800&q=85"
           alt="Sorted waste ready for recovery"
+          width={1800}
+          height={1100}
           className="absolute inset-0 size-full object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/20 to-[#063d08]/85" />
         <div className="relative flex min-h-[460px] md:min-h-[540px] flex-col justify-end p-6 md:p-12 text-white">

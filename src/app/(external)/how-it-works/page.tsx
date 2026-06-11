@@ -1,5 +1,5 @@
+import Image from "next/image";
 import {
-  ArrowRight,
   Cog,
   Flame,
   Gauge,
@@ -47,10 +47,13 @@ export default function HowItWorksPage() {
   return (
     <div className="px-4 pt-3">
       <section className="reveal-up relative mx-auto min-h-[460px] md:min-h-[540px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12]">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1800&q=85"
           alt="Renewable energy turbine"
+          width={1800}
+          height={1100}
           className="absolute inset-0 size-full object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/20 to-[#063d08]/85" />
         <div className="relative flex min-h-[460px] md:min-h-[540px] flex-col justify-end p-6 md:p-12 text-white">

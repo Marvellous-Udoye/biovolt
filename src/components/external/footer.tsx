@@ -54,11 +54,11 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 select-none text-center text-[18vw] font-black leading-none tracking-normal md:text-[10rem] relative">
+        <div className="relative mt-8 select-none text-center text-[19vw] font-black uppercase leading-none tracking-normal md:text-[10rem]">
           <span
-            className="bg-clip-text text-transparent bg-gradient-to-b from-white/20 to-white/5 uppercase"
+            className="footer-wordmark bg-gradient-to-b from-white/35 via-white/12 to-white/5 bg-clip-text text-transparent"
             style={{
-              WebkitTextStroke: "1px rgba(255, 255, 255, 0.15)",
+              WebkitTextStroke: "1px rgba(255, 255, 255, 0.18)",
             }}
           >
             BioVolt

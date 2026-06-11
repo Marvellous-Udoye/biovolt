@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { images, processCards, serviceCards, valueCards } from "./data";
@@ -15,14 +16,23 @@ function ImageBlock({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  return <img src={src} alt={alt} className={className} style={style} />;
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={1200}
+      height={800}
+      className={className}
+      style={style}
+    />
+  );
 }
 
 export function HomePage() {
   return (
     <div className="flex flex-col">
       <section className="px-4 pt-3">
-        <div className="relative mx-auto min-h-[500px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12] md:min-h-[640px]">
+        <div className="reveal-up relative mx-auto min-h-[500px] max-w-6xl overflow-hidden rounded-2xl bg-[#0f4f12] md:min-h-[640px]">
           <ImageBlock src={images.hero} alt="Green hills with renewable energy infrastructure" className="absolute inset-0 size-full object-cover animate-fade-in" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#225f47]/25 via-transparent to-[#063d08]/80" />
           <div className="absolute inset-x-0 bottom-0 grid gap-6 p-5 text-white md:grid-cols-[1.15fr_0.55fr_0.42fr] md:items-end md:p-11">
@@ -36,7 +46,7 @@ export function HomePage() {
                 A circular platform that sorts urban waste, routes recyclables, and estimates clean electricity from biogas.
               </p>
             </div>
-            <div className="overflow-hidden rounded-xl border border-white/80 bg-white/10 p-1 backdrop-blur hidden md:block">
+            <div className="float-soft hidden overflow-hidden rounded-xl border border-white/80 bg-white/10 p-1 backdrop-blur md:block">
               <ImageBlock src={images.heroCard} alt="Sorted recyclable waste being recovered" className="h-36 w-full rounded-lg object-cover md:h-44" />
               <p className="p-3 text-[11px] leading-4 text-white/90">
                 Reduce landfill methane, recover useful materials, and show the energy value hidden in Lagos waste.
@@ -194,7 +204,7 @@ export function HomePage() {
             ["What is digestate and can it be used?", "Yes, it is a nutrient-rich byproduct from anaerobic digestion that can be used as organic fertilizer."],
             ["Is BioVolt suitable for rural communities?", "Yes, the platform models work for any community that generates organic waste, including rural agricultural settings."],
           ].map(([question, answer], index) => (
-            <details key={question} className="w-full rounded-xl border border-[#e9ece4] bg-white px-5 py-4 shadow-sm" open={index === 1}>
+            <details key={question} className="group w-full rounded-xl border border-[#e9ece4] bg-white px-5 py-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md" open={index === 1}>
               <summary className="cursor-pointer list-none text-sm font-medium">{question}<span className="float-right">+</span></summary>
               <p className="mt-4 text-xs leading-5 text-[#6a7068]">{answer}</p>
             </details>
@@ -204,4 +214,3 @@ export function HomePage() {
     </div>
   );
 }
-
