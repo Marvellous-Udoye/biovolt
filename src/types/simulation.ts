@@ -33,6 +33,8 @@ export interface SimulationResult {
   electricityKwh: number;
   householdsPoweredDays: number;
   digestateKg: number;
+  fertilizerKg: number;
+  recyclablePlasticKg: number;
   co2eAvoidedKg: number;
   totalWasteKg: number;
   divertedKg: number;

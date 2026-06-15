@@ -20,6 +20,7 @@ export function calculateSimulation(input: SimulationInput): SimulationResult {
   const methaneM3 = organicKg * avgMethanePerKg;
   const electricityKwh = methaneM3 * SIMULATION_ASSUMPTIONS.methaneToKwh;
   const divertedKg = organicKg + plasticKg + recyclableKg;
+  const digestateKg = organicKg * SIMULATION_ASSUMPTIONS.digestateMassRatio;
 
   return {
     methaneM3,
@@ -28,7 +29,9 @@ export function calculateSimulation(input: SimulationInput): SimulationResult {
     biogasM3: methaneM3 / SIMULATION_ASSUMPTIONS.methaneFraction,
     electricityKwh,
     householdsPoweredDays: electricityKwh / SIMULATION_ASSUMPTIONS.householdKwhPerDay,
-    digestateKg: organicKg * SIMULATION_ASSUMPTIONS.digestateMassRatio,
+    digestateKg,
+    fertilizerKg: digestateKg,
+    recyclablePlasticKg: plasticKg,
     co2eAvoidedKg: electricityKwh * SIMULATION_ASSUMPTIONS.co2eAvoidedPerKwh,
     totalWasteKg,
     divertedKg,

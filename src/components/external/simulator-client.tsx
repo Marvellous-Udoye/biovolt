@@ -193,7 +193,8 @@ export function SimulatorClient() {
               <MetricCard icon={Factory} label="Methane" value={`${formatNumber(result.methaneM3)} m3`} helper={`${formatNumber(result.methaneLowM3)}-${formatNumber(result.methaneHighM3)} m3 estimate range`} />
               <MetricCard icon={Leaf} label="Raw biogas" value={`${formatNumber(result.biogasM3)} m3`} helper={`Assumes ${SIMULATION_ASSUMPTIONS.methaneFraction * 100}% methane fraction`} />
               <MetricCard icon={Zap} label="Electricity" value={`${formatNumber(result.electricityKwh)} kWh`} helper="Methane converted through CHP-style generation" />
-              <MetricCard icon={Sprout} label="Digestate" value={`${formatNumber(result.digestateKg)} kg`} helper="Fertilizer-like residue after anaerobic digestion" />
+              <MetricCard icon={Sprout} label="Fertilizer generated" value={`${formatNumber(result.fertilizerKg)} kg`} helper="Estimated organic fertilizer from digestate" />
+              <MetricCard icon={Recycle} label="Recyclable plastics" value={`${formatNumber(result.recyclablePlasticKg)} kg`} helper="Plastic waste available for recycling" />
               <MetricCard icon={BatteryCharging} label="CO2e avoided" value={`${formatNumber(result.co2eAvoidedKg)} kg`} helper="Diesel-generator displacement estimate" />
               <MetricCard
                 icon={Home}
